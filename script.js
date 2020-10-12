@@ -1,41 +1,47 @@
 const rotator  = document.getElementById('rotator');
-  let start    = 0;
-  let end      = 0;
+  let isRotate = false;
+  let startX   = 0;
+  let endX     = 0;
 
 rotator.addEventListener('mousedown', e => {
-    start = e.offsetX;
+    startX   = e.offsetX
+    isRotate = true
+    rotator.classList.add("active");
 });
 
-rotator.addEventListener('mouseup', e => {
-    end = e.offsetX;
-    rotate(start, end)
+rotator.addEventListener('mousemove', e => {
+    if (isRotate === true) {
+        endX = e.offsetX
+        rotate()
+    }
 });
+
+document.addEventListener('mouseup', e => {
+    isRotate = false;
+    rotator.classList.remove("active");
+});
+
 
 function bgPositionNumber(){
-    let setBgPosition    = rotator.style.backgroundPositionX;
-    let numberOnly       = setBgPosition.replace(/\D/g,'');
+    let setBgPosition     = rotator.style.backgroundPositionX;
+    let numberOnly        = setBgPosition.replace(/\D/g,'');
     return Number(numberOnly);
 }
 
-function rotate(start, end){
+function rotate(){
     const glue            = document.getElementById('glue');
       let bgPosition      = bgPositionNumber();
       let glueHeight      = glue.clientHeight;
-      let newBgPosition   = 0;
-      let newGlueHeight   = 0;
-      let move            = 17;
-    
-    if(start > end){
-        newBgPosition     = bgPosition + move;
-        console.log(newBgPosition);
-        newGlueHeight     = glueHeight + move;
-        glue.style.height = newGlueHeight + 'px';
-        rotator.style.backgroundPosition = newBgPosition + 'px 0px';
+      let move            = 1; //move just 1px
+
+    if(startX > endX){
+        if(glueHeight > 0){
+            glue.style.height = (glueHeight - move) + 'px';
+            rotator.style.backgroundPosition = (bgPosition - move) + 'px 0px';
+        }
     }
     else{
-        newBgPosition     = bgPosition - move;
-        newGlueHeight     = glueHeight - move;
-        glue.style.height = newGlueHeight + 'px';
-        rotator.style.backgroundPosition = newBgPosition + 'px 0px';
+        glue.style.height = (glueHeight + move) + 'px';
+        rotator.style.backgroundPosition = (bgPosition + move) + 'px 0px';
     }
 }
