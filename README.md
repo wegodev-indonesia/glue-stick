@@ -7,7 +7,7 @@ Script ini digunakan untuk konten instagram **wegodevindonesia**
 ## Prerequisite 
 - Text Editor
 - Browser
-- 
+
 ## Install
 - Download
 - Open Index.html di browser anda
